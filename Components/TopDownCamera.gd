@@ -70,7 +70,7 @@ func _input(event:InputEvent) -> void:
       #}
       elif(event.button_index == MOUSE_BUTTON_WHEEL_UP):
       #{
-        zoom = minv(zoom * 1.075, 3.0);
+        zoom = minv(zoom * 1.075, 4.0);
         #if(zoom.x < 2.99):
         ##{
           #position += MouseVector;
@@ -78,14 +78,14 @@ func _input(event:InputEvent) -> void:
       #}
       elif(event.button_index == MOUSE_BUTTON_WHEEL_DOWN):
       #{
-        zoom = maxv(zoom * 0.975, 0.2);
+        zoom = maxv(zoom * 0.925, 0.5);
         #if(zoom.x > 0.21):
         ##{
           #position -= MouseVector;
         ##}
       #}
     #}
-    
+    $"../Player".CurrentZoom = zoom;
     # When the mouse is moving across the screen
     if (event is InputEventMouseMotion and bRightMouseButton):
     #{

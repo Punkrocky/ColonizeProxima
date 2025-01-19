@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://c14877su17jr2"]
+[gd_scene load_steps=23 format=4 uid="uid://c14877su17jr2"]
 
 [ext_resource type="Texture2D" uid="uid://dy5hkgojlnfax" path="res://assets/GDM_TileAtlas.png" id="1_hrrrv"]
 [ext_resource type="Texture2D" uid="uid://bpjpkqsli3pby" path="res://assets/Ammo_Icon.png" id="1_wkq8x"]
@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://brtuo33ndq3w7" path="res://assets/Research_Icon.png" id="5_w3db3"]
 [ext_resource type="Texture2D" uid="uid://bm8upcgfwtqrt" path="res://assets/Enemies_SpriteSheet.png" id="7_1aq6n"]
 [ext_resource type="Script" path="res://Components/TopDownCamera.gd" id="8_y0f1e"]
-[ext_resource type="Texture2D" uid="uid://l3owcfexhhy5" path="res://assets/Player_Sprite.png" id="10_ng1ub"]
 [ext_resource type="Texture2D" uid="uid://dnm4av4ahefag" path="res://assets/GunTurret_Base_Sprite.png" id="11_pwxv6"]
 [ext_resource type="Texture2D" uid="uid://4f4d8ynmnf7f" path="res://assets/GunTurret_Top_Sprite.png" id="12_nesn2"]
 [ext_resource type="Texture2D" uid="uid://duqfo4lpitaxs" path="res://assets/Mine_Sprite.png" id="13_pgspw"]
@@ -17,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://cuvspgvcyyc33" path="res://assets/PowerPlant_Sprite.png" id="15_g16cs"]
 [ext_resource type="Texture2D" uid="uid://dqswn8tnc85ha" path="res://assets/Figurehead_Sprite.png" id="16_duknh"]
 [ext_resource type="Texture2D" uid="uid://c7l6rs4lktwqb" path="res://assets/Tree_Sprite.png" id="17_v2o8c"]
+[ext_resource type="PackedScene" uid="uid://dnc3ppp5wloe6" path="res://scenes/player.tscn" id="18_8xjiu"]
+[ext_resource type="Texture2D" uid="uid://4yvmq27l2gr7" path="res://assets/Factory_Sprite.png" id="18_a4svt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ojxyn"]
 texture = ExtResource("1_hrrrv")
@@ -93,10 +94,6 @@ texture = ExtResource("5_w3db3")
 position = Vector2(160, 184)
 texture = ExtResource("7_1aq6n")
 
-[node name="PlayerSprite" type="Sprite2D" parent="."]
-position = Vector2(224, 184)
-texture = ExtResource("10_ng1ub")
-
 [node name="GunTurretBaseSprite" type="Sprite2D" parent="."]
 position = Vector2(256, 184)
 texture = ExtResource("11_pwxv6")
@@ -135,3 +132,10 @@ texture = ExtResource("16_duknh")
 [node name="TreeSprite" type="Sprite2D" parent="."]
 position = Vector2(288, 184)
 texture = ExtResource("17_v2o8c")
+
+[node name="FactorySprite" type="Sprite2D" parent="."]
+position = Vector2(416, 312)
+texture = ExtResource("18_a4svt")
+
+[node name="Player" parent="." instance=ExtResource("18_8xjiu")]
+position = Vector2(384, 280)
