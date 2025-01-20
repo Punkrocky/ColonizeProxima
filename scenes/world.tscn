@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://c14877su17jr2"]
+[gd_scene load_steps=26 format=4 uid="uid://c14877su17jr2"]
 
 [ext_resource type="Texture2D" uid="uid://dy5hkgojlnfax" path="res://assets/GDM_TileAtlas.png" id="1_hrrrv"]
 [ext_resource type="Texture2D" uid="uid://d0gef6su0vxsn" path="res://assets/Energy_Icon.png" id="2_fx6bx"]
@@ -9,7 +9,15 @@
 [ext_resource type="Script" path="res://Components/TopDownCamera.gd" id="8_y0f1e"]
 [ext_resource type="Texture2D" uid="uid://bpjpkqsli3pby" path="res://assets/Ammo_Icon.png" id="9_yaory"]
 [ext_resource type="Texture2D" uid="uid://brtuo33ndq3w7" path="res://assets/Research_Icon.png" id="10_gt771"]
+[ext_resource type="Script" path="res://scripts/button_container.gd" id="12_fw15m"]
+[ext_resource type="Texture2D" uid="uid://cuvspgvcyyc33" path="res://assets/PowerPlant_Sprite.png" id="12_wfisc"]
+[ext_resource type="Texture2D" uid="uid://4yvmq27l2gr7" path="res://assets/Factory_Sprite.png" id="13_e5xhw"]
+[ext_resource type="Texture2D" uid="uid://bgeiow1orplpt" path="res://assets/Selector_Sprite.png" id="13_sf1rx"]
+[ext_resource type="Texture2D" uid="uid://icyh4megxhbu" path="res://assets/Farm_Sprite.png" id="14_30wqc"]
+[ext_resource type="Texture2D" uid="uid://duqfo4lpitaxs" path="res://assets/Mine_Sprite.png" id="15_j5bm5"]
+[ext_resource type="Texture2D" uid="uid://c3ubrw1kte5ap" path="res://assets/GunTurret_Sprite.png" id="16_4fdn8"]
 [ext_resource type="PackedScene" uid="uid://dnc3ppp5wloe6" path="res://scenes/player.tscn" id="18_8xjiu"]
+[ext_resource type="Texture2D" uid="uid://vckb1pc5eb7d" path="res://assets/Attack_Icon.png" id="18_x3c2t"]
 [ext_resource type="Texture2D" uid="uid://cma6bvahhr1b3" path="res://assets/HUB_Sprite.png" id="19_us8hb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ojxyn"]
@@ -147,3 +155,62 @@ texture = ExtResource("10_gt771")
 [node name="EnergyLabel5" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "999"
+
+[node name="ButtonContainer" type="PanelContainer" parent="CanvasLayer"]
+offset_left = 496.0
+offset_top = 628.0
+offset_right = 848.0
+offset_bottom = 700.0
+script = ExtResource("12_fw15m")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ButtonContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PowerPlantButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("12_wfisc")
+texture_hover = ExtResource("2_fx6bx")
+texture_focused = ExtResource("13_sf1rx")
+stretch_mode = 4
+
+[node name="FactoryButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("13_e5xhw")
+texture_hover = ExtResource("9_yaory")
+texture_focused = ExtResource("13_sf1rx")
+stretch_mode = 4
+
+[node name="FarmButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("14_30wqc")
+texture_hover = ExtResource("7_alg6k")
+texture_focused = ExtResource("13_sf1rx")
+stretch_mode = 4
+
+[node name="MineButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("15_j5bm5")
+texture_hover = ExtResource("8_ilt23")
+texture_focused = ExtResource("13_sf1rx")
+stretch_mode = 4
+
+[node name="GunTurretButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("16_4fdn8")
+texture_hover = ExtResource("18_x3c2t")
+texture_focused = ExtResource("13_sf1rx")
+stretch_mode = 4
+
+[connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/PowerPlantButton" to="CanvasLayer/ButtonContainer" method="_on_power_plant_button_pressed"]
