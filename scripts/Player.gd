@@ -78,9 +78,16 @@ func _input(event: InputEvent) -> void:
     
     if(event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed() && bIsActive):
     #{
+      # Restrict movement to grid aligned points, makes it easier to fallow roads
+      var GridAlignedMousePos:Vector2 = (get_global_mouse_position() / 32); # Tiles are 32x32 pixels
+      GridAlignedMousePos.x = roundi(GridAlignedMousePos.x); # Convert the world pos to a tile coord
+      GridAlignedMousePos.y = roundi(GridAlignedMousePos.y);
+      GridAlignedMousePos *= 32; # Tiles are 32x32 pixels, Convert it back to a world pos, now aligned to tiles
+      GridAlignedMousePos += Vector2(0,-8); # TileMap is vertically offset by 8 pixels
+      
       # Bound player to TileMap X[16+16, 1264-16] and Y[16+8, 704-8]
       #                         X[32, 1248]           Y[24, 696]
-      var BoundDestination = Vector2(max(32, min(1248, get_global_mouse_position().x)), max(24, min(696, get_global_mouse_position().y)));
+      var BoundDestination = Vector2(max(32, min(1248, GridAlignedMousePos.x)), max(24, min(696, GridAlignedMousePos.y)));
       if(event is InputEventWithModifiers && event.shift_pressed):
       #{
         DestinationArray.push_back(BoundDestination);
@@ -117,7 +124,6 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
     if(event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed()):
     #{
       bIsActive = true;
-      #$Sprite2D.material.set_shader_parameter("ActiveColor", Vector4(0.0,0.5,0.2,1.0));
       print("Pressed!");
       $SelectorSprite.visible = true;
     #}
