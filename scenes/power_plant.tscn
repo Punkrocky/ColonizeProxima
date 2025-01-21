@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4xlf0gebobtt"]
+
+[ext_resource type="Script" path="res://scripts/power_plant.gd" id="1_7ag7b"]
+[ext_resource type="Texture2D" uid="uid://cuvspgvcyyc33" path="res://assets/PowerPlant_Sprite.png" id="2_djpkx"]
+[ext_resource type="Script" path="res://scripts/Building_Cost.gd" id="2_wkel4"]
+
+[sub_resource type="Resource" id="Resource_dh0n1"]
+script = ExtResource("2_wkel4")
+FoodCost = 5
+MetalCost = 10
+EnergyCost = 0
+BuildTime = 1.0
+
+[node name="PowerPlant" type="Node2D"]
+script = ExtResource("1_7ag7b")
+Cost = SubResource("Resource_dh0n1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_djpkx")
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 3.0

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://c61jfr8ptqcun"]
+
+[ext_resource type="Script" path="res://scripts/resource_packet.gd" id="1_fepif"]
+
+[node name="ResourcePacket" type="Node2D"]
+script = ExtResource("1_fepif")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 10.0
+path_postprocessing = 1

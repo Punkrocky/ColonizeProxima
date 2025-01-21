@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn3o7b8bbqxcr"]
+
+[ext_resource type="Script" path="res://scripts/hub.gd" id="1_82od4"]
+[ext_resource type="Texture2D" uid="uid://cma6bvahhr1b3" path="res://assets/HUB_Sprite.png" id="2_pen3r"]
+
+[node name="HUB" type="Node2D"]
+script = ExtResource("1_82od4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_pen3r")
