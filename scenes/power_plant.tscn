@@ -1,22 +1,43 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4xlf0gebobtt"]
+[gd_scene load_steps=8 format=3 uid="uid://b4xlf0gebobtt"]
 
 [ext_resource type="Script" path="res://scripts/power_plant.gd" id="1_7ag7b"]
 [ext_resource type="Texture2D" uid="uid://cuvspgvcyyc33" path="res://assets/PowerPlant_Sprite.png" id="2_djpkx"]
-[ext_resource type="Script" path="res://scripts/Building_Cost.gd" id="2_wkel4"]
+[ext_resource type="Material" uid="uid://dcubnorsgtkkb" path="res://shaders/Building_Particles.tres" id="3_66238"]
+[ext_resource type="Texture2D" uid="uid://d0gef6su0vxsn" path="res://assets/Energy_Icon.png" id="3_dedpv"]
+
+[sub_resource type="GDScript" id="GDScript_iomox"]
+script/source = "extends Resource
+class_name BuildingCost;
+"
 
 [sub_resource type="Resource" id="Resource_dh0n1"]
-script = ExtResource("2_wkel4")
-FoodCost = 5
-MetalCost = 10
-EnergyCost = 0
-BuildTime = 1.0
+script = SubResource("GDScript_iomox")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qcpnx"]
+size = Vector2(48, 48)
 
 [node name="PowerPlant" type="Node2D"]
 script = ExtResource("1_7ag7b")
 Cost = SubResource("Resource_dh0n1")
 
+[node name="ProductionTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_qcpnx")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_djpkx")
 
-[node name="Line2D" type="Line2D" parent="."]
-width = 3.0
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 2
+emitting = false
+process_material = ExtResource("3_66238")
+texture = ExtResource("3_dedpv")
+lifetime = 1.5
+one_shot = true
+
+[connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

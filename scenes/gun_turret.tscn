@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://bnjvsqtfmwvpl"]
+
+[ext_resource type="Script" path="res://scripts/gun_turret.gd" id="1_1qg7l"]
+[ext_resource type="Texture2D" uid="uid://dnm4av4ahefag" path="res://assets/GunTurret_Base_Sprite.png" id="2_kwokk"]
+[ext_resource type="Texture2D" uid="uid://4f4d8ynmnf7f" path="res://assets/GunTurret_Top_Sprite.png" id="3_cnygd"]
+[ext_resource type="Texture2D" uid="uid://bgeiow1orplpt" path="res://assets/Selector_Sprite.png" id="4_ic0pg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lgkaq"]
+radius = 24.0
+
+[node name="GunTurret" type="Node2D"]
+script = ExtResource("1_1qg7l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_kwokk")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_lgkaq")
+
+[node name="TopSprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_cnygd")
+
+[node name="SelectorSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_ic0pg")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

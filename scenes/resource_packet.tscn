@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c61jfr8ptqcun"]
+[gd_scene load_steps=3 format=3 uid="uid://c61jfr8ptqcun"]
 
 [ext_resource type="Script" path="res://scripts/resource_packet.gd" id="1_fepif"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_716dj"]
 
 [node name="ResourcePacket" type="Node2D"]
 script = ExtResource("1_fepif")
@@ -9,5 +11,12 @@ script = ExtResource("1_fepif")
 scale = Vector2(0.5, 0.5)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 16.0
+target_desired_distance = 8.0
 path_max_distance = 10.0
 path_postprocessing = 1
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_716dj")

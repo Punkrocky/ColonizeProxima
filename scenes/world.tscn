@@ -1,5 +1,6 @@
-[gd_scene load_steps=41 format=4 uid="uid://c14877su17jr2"]
+[gd_scene load_steps=43 format=4 uid="uid://c14877su17jr2"]
 
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_axw5j"]
 [ext_resource type="Texture2D" uid="uid://dy5hkgojlnfax" path="res://assets/GDM_TileAtlas.png" id="1_hrrrv"]
 [ext_resource type="Texture2D" uid="uid://d0gef6su0vxsn" path="res://assets/Energy_Icon.png" id="2_fx6bx"]
 [ext_resource type="Texture2D" uid="uid://dt2lnj4iqw1nb" path="res://assets/Road_SpriteSheet.png" id="2_lnewm"]
@@ -176,7 +177,12 @@ tile_size = Vector2i(32, 32)
 navigation_layer_0/layers = 1
 sources/1 = SubResource("TileSetAtlasSource_twjcf")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnlo6"]
+atlas = ExtResource("2_lnewm")
+region = Rect2(32, 64, 32, 32)
+
 [node name="World" type="Node2D"]
+script = ExtResource("1_axw5j")
 
 [node name="TopDownCamera" type="Camera2D" parent="."]
 position = Vector2(640, 360)
@@ -189,7 +195,7 @@ tile_set = SubResource("TileSet_7jfn4")
 
 [node name="Building_TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(16, 8)
-tile_map_data = PackedByteArray("AAALAA0AAQAAAAAAAAAKAAsAAQAAAAEAAAALAAsAAQAAAAEAAAAMAAsAAQAAAAEAAAAJAAsAAQABAAEAAAAIAAsAAQABAAEAAAAIAAoAAQABAAEAAAAJAAoAAQABAAEAAAAKAAoAAQAAAAEAAAALAAoAAQAAAAEAAAAMAAoAAQAAAAEAAAA=")
+tile_map_data = PackedByteArray("AAALAA0AAQAAAAAAAAA=")
 tile_set = SubResource("TileSet_xdnla")
 
 [node name="Road_TileMapLayer" type="TileMapLayer" parent="."]
@@ -206,7 +212,6 @@ position = Vector2(384, 440)
 RoadTileMap = NodePath("../Road_TileMapLayer")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="ResourcePanel" type="PanelContainer" parent="CanvasLayer"]
 offset_right = 40.0
@@ -223,51 +228,51 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 columns = 2
 
+[node name="FoodIcon" type="TextureRect" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = ExtResource("7_alg6k")
+
+[node name="FoodLabel" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="MetalIcon" type="TextureRect" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = ExtResource("8_ilt23")
+
+[node name="MetalLabel" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "0"
+
 [node name="EnergyIcon" type="TextureRect" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 texture = ExtResource("2_fx6bx")
 
 [node name="EnergyLabel" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "999"
+text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
-layout_mode = 2
-texture = ExtResource("7_alg6k")
-
-[node name="EnergyLabel2" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
-layout_mode = 2
-text = "999"
-
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
-layout_mode = 2
-texture = ExtResource("8_ilt23")
-
-[node name="EnergyLabel3" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
-layout_mode = 2
-text = "999"
-
-[node name="TextureRect3" type="TextureRect" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
+[node name="AmmoIcon" type="TextureRect" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 texture = ExtResource("9_yaory")
 
-[node name="EnergyLabel4" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
+[node name="AmmoLabel" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "999"
+text = "0"
 
-[node name="TextureRect4" type="TextureRect" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
+[node name="ResearchIcon" type="TextureRect" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 texture = ExtResource("10_gt771")
 
-[node name="EnergyLabel5" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
+[node name="ResearchLabel" type="Label" parent="CanvasLayer/ResourcePanel/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "999"
+text = "0"
 
 [node name="ButtonContainer" type="PanelContainer" parent="CanvasLayer"]
 offset_left = 496.0
 offset_top = 628.0
 offset_right = 848.0
-offset_bottom = 700.0
+offset_bottom = 692.0
 script = ExtResource("12_fw15m")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ButtonContainer"]
@@ -280,25 +285,11 @@ theme_override_constants/margin_bottom = 4
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ButtonContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="PowerPlantButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture_normal = ExtResource("12_wfisc")
-texture_hover = ExtResource("2_fx6bx")
-texture_focused = ExtResource("13_sf1rx")
-stretch_mode = 4
-
-[node name="FactoryButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture_normal = ExtResource("13_e5xhw")
-texture_hover = ExtResource("9_yaory")
-texture_focused = ExtResource("13_sf1rx")
-stretch_mode = 4
-
 [node name="FarmButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Farm - Cost: 2 Metal, 1 Energy
+Produces 1 Food every 5 seconds"
 texture_normal = ExtResource("14_30wqc")
 texture_hover = ExtResource("7_alg6k")
 texture_focused = ExtResource("13_sf1rx")
@@ -307,17 +298,49 @@ stretch_mode = 4
 [node name="MineButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Mine"
 texture_normal = ExtResource("15_j5bm5")
 texture_hover = ExtResource("8_ilt23")
+texture_focused = ExtResource("13_sf1rx")
+stretch_mode = 4
+
+[node name="PowerPlantButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Power Plant"
+texture_normal = ExtResource("12_wfisc")
+texture_hover = ExtResource("2_fx6bx")
+texture_focused = ExtResource("13_sf1rx")
+stretch_mode = 4
+
+[node name="FactoryButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Factory"
+texture_normal = ExtResource("13_e5xhw")
+texture_hover = ExtResource("9_yaory")
 texture_focused = ExtResource("13_sf1rx")
 stretch_mode = 4
 
 [node name="GunTurretButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Gun Turret"
 texture_normal = ExtResource("16_4fdn8")
 texture_hover = ExtResource("18_x3c2t")
 texture_focused = ExtResource("13_sf1rx")
 stretch_mode = 4
 
+[node name="RoadsButton" type="TextureButton" parent="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Roads"
+texture_normal = SubResource("AtlasTexture_wnlo6")
+texture_focused = ExtResource("13_sf1rx")
+stretch_mode = 4
+
+[connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/FarmButton" to="CanvasLayer/ButtonContainer" method="_on_farm_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/MineButton" to="CanvasLayer/ButtonContainer" method="_on_mine_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/PowerPlantButton" to="CanvasLayer/ButtonContainer" method="_on_power_plant_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/FactoryButton" to="CanvasLayer/ButtonContainer" method="_on_factory_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/GunTurretButton" to="CanvasLayer/ButtonContainer" method="_on_gun_turret_button_pressed"]

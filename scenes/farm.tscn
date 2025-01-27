@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dktbenbts37hy"]
+
+[ext_resource type="Script" path="res://scripts/farm.gd" id="1_6ue42"]
+[ext_resource type="Texture2D" uid="uid://icyh4megxhbu" path="res://assets/Farm_Sprite.png" id="2_4aess"]
+[ext_resource type="Material" uid="uid://dcubnorsgtkkb" path="res://shaders/Building_Particles.tres" id="3_pgewl"]
+[ext_resource type="Texture2D" uid="uid://bnnf07sylx7q7" path="res://assets/Food_Icon.png" id="4_3giga"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4pqur"]
+size = Vector2(48, 48)
+
+[node name="Farm" type="Node2D"]
+script = ExtResource("1_6ue42")
+
+[node name="ProductionTimer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_4pqur")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_4aess")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+process_material = ExtResource("3_pgewl")
+texture = ExtResource("4_3giga")
+one_shot = true
+
+[connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

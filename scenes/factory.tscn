@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://dl60l7c4m2s8r"]
+
+[ext_resource type="Script" path="res://scripts/factory.gd" id="1_4j2ya"]
+[ext_resource type="Texture2D" uid="uid://4yvmq27l2gr7" path="res://assets/Factory_Sprite.png" id="2_pv2n1"]
+[ext_resource type="Material" uid="uid://dcubnorsgtkkb" path="res://shaders/Building_Particles.tres" id="2_ro5m6"]
+[ext_resource type="Texture2D" uid="uid://bpjpkqsli3pby" path="res://assets/Ammo_Icon.png" id="3_5qn10"]
+[ext_resource type="Texture2D" uid="uid://cwwnuhvtcodrv" path="res://assets/Metal_Icon.png" id="5_dlfdg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eddkl"]
+size = Vector2(48, 48)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ghhpy"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 48.0
+emission_ring_inner_radius = 44.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -80.0
+radial_accel_max = -45.0
+scale_min = 0.25
+scale_max = 0.5
+
+[node name="Factory" type="Node2D"]
+script = ExtResource("1_4j2ya")
+
+[node name="ProductionTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_eddkl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_pv2n1")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+process_material = ExtResource("2_ro5m6")
+texture = ExtResource("3_5qn10")
+one_shot = true
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_ghhpy")
+texture = ExtResource("5_dlfdg")
+one_shot = true
+
+[connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]

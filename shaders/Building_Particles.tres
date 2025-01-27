@@ -1,0 +1,15 @@
+[gd_resource type="ParticleProcessMaterial" format=3 uid="uid://dcubnorsgtkkb"]
+
+[resource]
+particle_flag_disable_z = true
+angle_min = -45.0
+angle_max = 45.0
+direction = Vector3(0, -1, 0)
+spread = 60.0
+initial_velocity_min = 32.26
+initial_velocity_max = 37.63
+gravity = Vector3(0, 29, 0)
+radial_accel_min = -18.28
+radial_accel_max = 26.88
+scale_min = 0.25
+scale_max = 0.5
