@@ -15,6 +15,7 @@ var bIsActive:bool = true;
 var CurrentFood:int;
 var CurrentMetal:int;
 var CurrentEnergy:int;
+var World:Node; # Parent of the building
 
 func AlignMouseToGrid(mousePos:Vector2) -> Vector2:
 #{
@@ -29,7 +30,7 @@ func AlignMouseToGrid(mousePos:Vector2) -> Vector2:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 #{
-  pass
+  World = get_parent();
 #}
 
 
@@ -59,6 +60,9 @@ func _input(event: InputEvent) -> void:
       Cost.BuildingPosition = position;
       building_placed.emit(Cost);
       #TODO: Emit a signal to the HUB that a new construction site was placed
+      World.consume_resource(Enums.ResourceIconType.FOOD, Cost.FoodCost);
+      World.consume_resource(Enums.ResourceIconType.METAL, Cost.MetalCost);
+      World.consume_resource(Enums.ResourceIconType.ENERGY, Cost.EnergyCost);
     #}
     elif(event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed() && bIsActive):
       get_parent().remove_child(self);

@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://78ubowh7fyjo"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_rku5c"]
+[ext_resource type="Texture2D" uid="uid://bm8upcgfwtqrt" path="res://assets/Enemies_SpriteSheet.png" id="2_hi5rl"]
+[ext_resource type="PackedScene" uid="uid://d0cfk3wpwt670" path="res://Components/health_component.tscn" id="3_yidmv"]
+[ext_resource type="Script" path="res://Components/damage_component.gd" id="4_g4hbd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_23cge"]
+radius = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b81m5"]
+radius = 128.0
+
+[node name="Enemy" type="Node2D"]
+script = ExtResource("1_rku5c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_hi5rl")
+hframes = 3
+vframes = 2
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_yidmv")]
+position = Vector2(0, -24)
+Health = 1
+
+[node name="DamageComponent" type="Area2D" parent="."]
+collision_layer = 3
+script = ExtResource("4_g4hbd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("CircleShape2D_23cge")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_b81m5")
+
+[connection signal="Death" from="HealthComponent" to="." method="_on_health_component_death"]
+[connection signal="Damaged" from="DamageComponent" to="." method="_on_damage_component_damaged"]

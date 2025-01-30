@@ -26,5 +26,11 @@ texture = ExtResource("3_cnygd")
 visible = false
 texture = ExtResource("4_ic0pg")
 
+[node name="Line2D" type="Line2D" parent="."]
+z_index = 1
+width = 2.0
+default_color = Color(0.610965, 0.226274, 0.0551097, 1)
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

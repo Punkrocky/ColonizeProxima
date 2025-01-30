@@ -8,6 +8,7 @@ const BUILDING_POWERPLANT:PackedScene = preload("res://scenes/power_plant.tscn")
 const BUILDING_FACTORY:PackedScene = preload("res://scenes/factory.tscn");
 const BUILDING_GUN_TURRET:PackedScene = preload("res://scenes/gun_turret.tscn");
 
+var bHasPickedBuilding:bool = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -18,10 +19,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
   pass
 
+func _on_building_placed() -> void:
+  bHasPickedBuilding = false;
 
 func _on_farm_button_pressed() -> void:
 #{
   print("New Farm!");
+  bHasPickedBuilding = true;
   var NewFarm = BUILDING_FARM.instantiate();
   NewFarm.GroundTileMap = $"../../Ground_TileMapLayer";
   NewFarm.BuildingTileMap = $"../../Building_TileMapLayer";

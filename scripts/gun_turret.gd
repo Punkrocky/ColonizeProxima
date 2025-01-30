@@ -1,11 +1,19 @@
 extends Building_Base
 
+const BULLET:PackedScene = preload("res://scenes/bullet.tscn");
+
 var bIsPlayerSelected:bool;
+var bIsConstructionDone:bool = false;
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 #{
-  pass;
+  # Draw the range of the turret using 25 points
+  for i in Vector3(0.0, TAU, TAU/24.0):
+    $Line2D.add_point(Vector2(200*cos(i), 200*sin(i)));
+  $Line2D.add_point(Vector2(200*cos(TAU), 200*sin(TAU)));
+  World = get_parent();
 #}
 
 
@@ -17,6 +25,8 @@ func _process(delta: float) -> void:
     var CurrentMousePos = get_global_mouse_position();
     var TileCoord = BuildingTileMap.local_to_map(CurrentMousePos - BuildingTileMap.position);
     position = AlignMouseToGrid(CurrentMousePos);
+    for i in $Line2D.points: # Keep the radius centered
+      i += position;
     
     if(BuildingTileMap.get_cell_source_id(TileCoord) > -1
     || RoadsTileMap.get_cell_source_id(TileCoord) > -1
@@ -32,6 +42,15 @@ func _process(delta: float) -> void:
       $Sprite2D.modulate = Color.GREEN;
       $TopSprite.modulate = Color.GREEN;
     #}
+  #}
+  else:
+  #{
+    if(bIsPlayerSelected):
+    #{
+      $Line2D.visible = true;
+    #}
+    else:
+      $Line2D.visible = false;
   #}
 #}
 
@@ -52,22 +71,38 @@ func _input(event: InputEvent) -> void:
       # The building needs to be constructed first, set the TileMapLayer as a construction site and hide the finished Sprite
       $Sprite2D.visible = false;
       $TopSprite.visible = false;
+      
       BuildingTileMap.set_cell(BuildingTileMap.local_to_map(get_global_mouse_position() - BuildingTileMap.position), 1, Vector2i(3,1));
       position = AlignMouseToGrid(get_global_mouse_position());
       Cost.BuildingPosition = position;
       building_placed.emit(Cost);
-      #TODO: Emit a signal to the HUB that a new construction site was placed
+      World.consume_resource(Enums.ResourceIconType.FOOD, Cost.FoodCost);
+      World.consume_resource(Enums.ResourceIconType.METAL, Cost.MetalCost);
+      World.consume_resource(Enums.ResourceIconType.ENERGY, Cost.EnergyCost);
+    #}
+    elif(event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed()
+    && !bIsActive && bIsPlayerSelected && bIsConstructionDone && !Enums.bIsHoverPlayer && !World.AmmoResources <= 0):
+    #{
+      var NewBullet = BULLET.instantiate();
+      NewBullet.Angle = get_angle_to(get_global_mouse_position());
+      NewBullet.rotation = get_angle_to(get_global_mouse_position())+PI/2;
+      NewBullet.position = position;
+      print(get_parent().name);
+      World.add_child(NewBullet);
+      World.consume_resource(Enums.ResourceIconType.AMMO, 1);
     #}
     elif(event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed() && bIsActive):
+    #{
       get_parent().remove_child(self);
       queue_free();
+    #}
   #}
   elif(event is InputEventMouse && event is InputEventMouseMotion && bIsPlayerSelected):
   #{
     $TopSprite.rotation = (get_angle_to(get_global_mouse_position())+PI/2);
-    
   #}
 #}
+
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 #{
@@ -94,16 +129,26 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
       $TopSprite.visible = true;
       BuildingTileMap.set_cell(BuildingTileMap.local_to_map(position - BuildingTileMap.position), 1, Vector2i(2,1));
       finished_construction.emit();
+      bIsConstructionDone = true;
     #}
   #}
   elif(areaParent is Player):
   #{
     pass;
     bIsPlayerSelected = true;
-    
+    $SelectorSprite.visible = true;
   #}
 #}
 
+
+func _on_area_2d_area_exited(area: Area2D) -> void:
+#{
+  if(area.get_parent() is Player):
+  #{
+    bIsPlayerSelected = false;
+    $SelectorSprite.visible = false;
+  #}
+#}
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 #{

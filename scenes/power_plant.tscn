@@ -1,9 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://b4xlf0gebobtt"]
+[gd_scene load_steps=12 format=3 uid="uid://b4xlf0gebobtt"]
 
 [ext_resource type="Script" path="res://scripts/power_plant.gd" id="1_7ag7b"]
-[ext_resource type="Texture2D" uid="uid://cuvspgvcyyc33" path="res://assets/PowerPlant_Sprite.png" id="2_djpkx"]
+[ext_resource type="Texture2D" uid="uid://bfb65p1eni85n" path="res://assets/PowerPlant_SpriteSheet.png" id="2_6ve7b"]
 [ext_resource type="Material" uid="uid://dcubnorsgtkkb" path="res://shaders/Building_Particles.tres" id="3_66238"]
 [ext_resource type="Texture2D" uid="uid://d0gef6su0vxsn" path="res://assets/Energy_Icon.png" id="3_dedpv"]
+[ext_resource type="Texture2D" uid="uid://cp1pgo53oktrx" path="res://assets/Damaged_Sprite.png" id="5_n6hhe"]
+[ext_resource type="PackedScene" uid="uid://d0cfk3wpwt670" path="res://Components/health_component.tscn" id="6_lsun5"]
+[ext_resource type="Script" path="res://Components/damage_component.gd" id="7_323hy"]
 
 [sub_resource type="GDScript" id="GDScript_iomox"]
 script/source = "extends Resource
@@ -15,6 +18,9 @@ script = SubResource("GDScript_iomox")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qcpnx"]
 size = Vector2(48, 48)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qsr0t"]
+radius = 20.0
 
 [node name="PowerPlant" type="Node2D"]
 script = ExtResource("1_7ag7b")
@@ -29,7 +35,8 @@ wait_time = 10.0
 shape = SubResource("RectangleShape2D_qcpnx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_djpkx")
+texture = ExtResource("2_6ve7b")
+hframes = 2
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 z_index = 2
@@ -39,5 +46,24 @@ texture = ExtResource("3_dedpv")
 lifetime = 1.5
 one_shot = true
 
+[node name="DamagedSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_n6hhe")
+
+[node name="HealthComponent" parent="." instance=ExtResource("6_lsun5")]
+z_index = 5
+position = Vector2(0, -24)
+scale = Vector2(0.5, 0.5)
+Health = 6
+
+[node name="DamageComponent" type="Area2D" parent="."]
+script = ExtResource("7_323hy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("CircleShape2D_qsr0t")
+debug_color = Color(0, 0.6, 0.701961, 0.568627)
+
 [connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="Death" from="HealthComponent" to="." method="_on_health_component_death"]
+[connection signal="Damaged" from="DamageComponent" to="." method="_on_damage_component_damaged"]

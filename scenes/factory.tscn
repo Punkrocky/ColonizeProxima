@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://dl60l7c4m2s8r"]
+[gd_scene load_steps=12 format=3 uid="uid://dl60l7c4m2s8r"]
 
 [ext_resource type="Script" path="res://scripts/factory.gd" id="1_4j2ya"]
-[ext_resource type="Texture2D" uid="uid://4yvmq27l2gr7" path="res://assets/Factory_Sprite.png" id="2_pv2n1"]
+[ext_resource type="Texture2D" uid="uid://6xo5ofdtxjoi" path="res://assets/Factory_SpriteSheet.png" id="2_qx318"]
 [ext_resource type="Material" uid="uid://dcubnorsgtkkb" path="res://shaders/Building_Particles.tres" id="2_ro5m6"]
 [ext_resource type="Texture2D" uid="uid://bpjpkqsli3pby" path="res://assets/Ammo_Icon.png" id="3_5qn10"]
 [ext_resource type="Texture2D" uid="uid://cwwnuhvtcodrv" path="res://assets/Metal_Icon.png" id="5_dlfdg"]
+[ext_resource type="Texture2D" uid="uid://cp1pgo53oktrx" path="res://assets/Damaged_Sprite.png" id="6_lhw4m"]
+[ext_resource type="PackedScene" uid="uid://d0cfk3wpwt670" path="res://Components/health_component.tscn" id="7_qqsy6"]
+[ext_resource type="Script" path="res://Components/damage_component.gd" id="8_ojp1r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eddkl"]
 size = Vector2(48, 48)
@@ -22,6 +25,9 @@ radial_accel_max = -45.0
 scale_min = 0.25
 scale_max = 0.5
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_27gqb"]
+radius = 20.0
+
 [node name="Factory" type="Node2D"]
 script = ExtResource("1_4j2ya")
 
@@ -34,7 +40,8 @@ wait_time = 10.0
 shape = SubResource("RectangleShape2D_eddkl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_pv2n1")
+texture = ExtResource("2_qx318")
+hframes = 2
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 emitting = false
@@ -48,6 +55,23 @@ process_material = SubResource("ParticleProcessMaterial_ghhpy")
 texture = ExtResource("5_dlfdg")
 one_shot = true
 
+[node name="DamagedSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("6_lhw4m")
+
+[node name="HealthComponent" parent="." instance=ExtResource("7_qqsy6")]
+position = Vector2(0, -24)
+scale = Vector2(0.5, 0.5)
+Health = 6
+
+[node name="DamageComponent" type="Area2D" parent="."]
+script = ExtResource("8_ojp1r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("CircleShape2D_27gqb")
+
 [connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]
+[connection signal="Death" from="HealthComponent" to="." method="_on_health_component_death"]
+[connection signal="Damaged" from="DamageComponent" to="." method="_on_damage_component_damaged"]

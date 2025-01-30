@@ -1,12 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://dktbenbts37hy"]
+[gd_scene load_steps=10 format=3 uid="uid://dktbenbts37hy"]
 
 [ext_resource type="Script" path="res://scripts/farm.gd" id="1_6ue42"]
-[ext_resource type="Texture2D" uid="uid://icyh4megxhbu" path="res://assets/Farm_Sprite.png" id="2_4aess"]
+[ext_resource type="Texture2D" uid="uid://drrbga0ndjlmc" path="res://assets/Farm_SpriteSheet.png" id="2_kul7k"]
 [ext_resource type="Material" uid="uid://dcubnorsgtkkb" path="res://shaders/Building_Particles.tres" id="3_pgewl"]
 [ext_resource type="Texture2D" uid="uid://bnnf07sylx7q7" path="res://assets/Food_Icon.png" id="4_3giga"]
+[ext_resource type="PackedScene" uid="uid://d0cfk3wpwt670" path="res://Components/health_component.tscn" id="5_2uger"]
+[ext_resource type="Texture2D" uid="uid://cp1pgo53oktrx" path="res://assets/Damaged_Sprite.png" id="5_ycbd6"]
+[ext_resource type="Script" path="res://Components/damage_component.gd" id="6_ucw6l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4pqur"]
 size = Vector2(48, 48)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_milug"]
+radius = 20.0
 
 [node name="Farm" type="Node2D"]
 script = ExtResource("1_6ue42")
@@ -20,7 +26,8 @@ wait_time = 5.0
 shape = SubResource("RectangleShape2D_4pqur")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_4aess")
+texture = ExtResource("2_kul7k")
+hframes = 2
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 emitting = false
@@ -28,5 +35,22 @@ process_material = ExtResource("3_pgewl")
 texture = ExtResource("4_3giga")
 one_shot = true
 
+[node name="DamagedSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_ycbd6")
+
+[node name="HealthComponent" parent="." instance=ExtResource("5_2uger")]
+position = Vector2(0, -24)
+scale = Vector2(0.5, 0.5)
+Health = 4
+
+[node name="DamageComponent" type="Area2D" parent="."]
+script = ExtResource("6_ucw6l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("CircleShape2D_milug")
+
 [connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="Death" from="HealthComponent" to="." method="_on_health_component_death"]
+[connection signal="Damaged" from="DamageComponent" to="." method="_on_damage_component_damaged"]

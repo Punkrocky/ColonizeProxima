@@ -129,3 +129,11 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
     #}
   #}
 #}
+
+
+func _on_area_2d_mouse_entered() -> void:
+  Enums.bIsHoverPlayer = true;
+
+
+func _on_area_2d_mouse_exited() -> void:
+  Enums.bIsHoverPlayer = false;
