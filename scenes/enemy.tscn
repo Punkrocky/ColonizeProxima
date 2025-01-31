@@ -62,6 +62,7 @@ shape = SubResource("CircleShape2D_23cge")
 shape = SubResource("CircleShape2D_b81m5")
 
 [node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 0.75
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true

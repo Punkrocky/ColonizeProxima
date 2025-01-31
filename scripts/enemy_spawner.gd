@@ -58,3 +58,9 @@ func _on_spawn_interval_timeout() -> void:
     WaveStrength += 1;
   #}
 #}
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+  if(body.get_parent() is CharacterBody2D):
+    if(body.get_parent().CurrentState == 3):
+      body.get_parent().Destination = body.global_position;

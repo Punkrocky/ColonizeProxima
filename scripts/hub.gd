@@ -13,6 +13,7 @@ func _ready() -> void:
   GroundTileMap = World.get_child(1);
   BuildingTileMap = World.get_child(2);
   RoadsTileMap = World.get_child(3);
+  bIsConstructionDone = true;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -84,6 +85,8 @@ func _on_health_component_death() -> void:
   $HealthComponent.visible = false;
   $DamagedSprite.visible = false;
   $DamageComponent/CollisionShape2D.set_deferred("disabled", true);
+  
+  World.find_child("LosePanel").visible = true;
   
   var TileMapCoord:Vector2i = BuildingTileMap.local_to_map(position - BuildingTileMap.position);
   BuildingTileMap.set_cell(TileMapCoord, 0, Vector2i(0,0));
