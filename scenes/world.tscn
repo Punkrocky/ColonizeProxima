@@ -3008,8 +3008,16 @@ texture = ExtResource("23_4wrpp")
 [node name="EnemySpawner" parent="." instance=ExtResource("24_co52u")]
 position = Vector2(641, -200)
 
+[node name="EnemySpawner2" parent="." instance=ExtResource("24_co52u")]
+position = Vector2(1441, 360)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 60.0
+
+[connection signal="building_destroyed" from="HUB" to="." method="_on_hub_building_destroyed"]
 [connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/FarmButton" to="CanvasLayer/ButtonContainer" method="_on_farm_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/MineButton" to="CanvasLayer/ButtonContainer" method="_on_mine_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/PowerPlantButton" to="CanvasLayer/ButtonContainer" method="_on_power_plant_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/FactoryButton" to="CanvasLayer/ButtonContainer" method="_on_factory_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/GunTurretButton" to="CanvasLayer/ButtonContainer" method="_on_gun_turret_button_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

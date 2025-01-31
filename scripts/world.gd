@@ -12,6 +12,8 @@ func _ready() -> void:
   $CanvasLayer/ResourcePanel/MarginContainer/GridContainer/MetalLabel.text = str(MetalResources);
   $CanvasLayer/ResourcePanel/MarginContainer/GridContainer/EnergyLabel.text = str(EnergyResources);
   $CanvasLayer/ResourcePanel/MarginContainer/GridContainer/AmmoLabel.text = str(AmmoResources);
+  $Timer.start();
+  $EnemySpawner2.get_child(0).stop();
 #}
 
 
@@ -74,3 +76,14 @@ func _on_building_produced_resource(type:int) -> void:
     #}
   #}
 #}
+
+
+func _on_timer_timeout() -> void:
+  $Timer.stop();
+  $EnemySpawner2.visible = true;
+  $EnemySpawner2.get_child(0).start();
+
+
+func _on_hub_building_destroyed() -> void:
+  $EnemySpawner.get_child(0).stop();
+  $EnemySpawner2.get_child(0).stop();
