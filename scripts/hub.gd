@@ -1,4 +1,4 @@
-extends Node2D
+extends Building_Base
 
 @export var PACKET:PackedScene = preload("res://scenes/resource_packet.tscn");
 var InvoiceArray:Array;
@@ -8,11 +8,11 @@ var food_to_send:int;
 var metal_to_send:int;
 var energy_to_send:int;
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-  pass # Replace with function body.
-  
-
+  World = get_parent();
+  GroundTileMap = World.get_child(1);
+  BuildingTileMap = World.get_child(2);
+  RoadsTileMap = World.get_child(3);
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -39,9 +39,8 @@ func _process(delta: float) -> void:
 func _on_building_placed(invoice:Invoice) -> void:
   #{
     pass;
-    print("HUB recieved building placed!");
     InvoiceArray.push_back(invoice);
-    print("<",invoice.FoodCost,",",invoice.MetalCost,",",invoice.EnergyCost,",",invoice.BuildingPosition,">");
+    #print("<",invoice.FoodCost,",",invoice.MetalCost,",",invoice.EnergyCost,",",invoice.BuildingPosition,">");
   #}
 
 
@@ -75,3 +74,24 @@ func _on_timer_timeout() -> void:
   packet.Target = CurrentInvoice.BuildingPosition;
   add_child(packet);
 #}
+
+
+func _on_health_component_death() -> void:
+#{
+  building_destroyed.emit();
+  
+  $Sprite2D.frame = 1;
+  $HealthComponent.visible = false;
+  $DamagedSprite.visible = false;
+  $DamageComponent/CollisionShape2D.set_deferred("disabled", true);
+  
+  var TileMapCoord:Vector2i = BuildingTileMap.local_to_map(position - BuildingTileMap.position);
+  BuildingTileMap.set_cell(TileMapCoord, 0, Vector2i(0,0));
+  #GroundTileMap.set_cell(TileMapCoord, 0, Vector2i(0,0));
+  #(func(x): for i in x: GroundTileMap.set_cell(i, 0, Vector2i(0,0))).call(RoadsTileMap.get_surrounding_cells(TileMapCoord));
+  set_process(false);
+#}
+
+
+func _on_damage_component_damaged(x: int) -> void:
+  $HealthComponent.take_damage(x);

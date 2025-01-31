@@ -4,6 +4,7 @@ class_name Building_Base;
 signal building_placed(x:Invoice);
 signal finished_construction;
 signal produced_resource(x:int);
+signal building_destroyed;
 
 @export var GroundTileMap:TileMapLayer;
 @export var BuildingTileMap:TileMapLayer;
@@ -11,7 +12,8 @@ signal produced_resource(x:int);
 
 
 @export var Cost:Invoice;
-var bIsActive:bool = true;
+var bIsActive:bool = false;
+var bIsConstructionDone:bool = false;
 var CurrentFood:int;
 var CurrentMetal:int;
 var CurrentEnergy:int;

@@ -54,6 +54,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
       BuildingTileMap.set_cell(BuildingTileMap.local_to_map(position - BuildingTileMap.position), 1, Vector2i(1,0));
       finished_construction.emit();
       $ProductionTimer.start();
+      bIsConstructionDone = true;
     #}
   #}
 #}
@@ -67,7 +68,8 @@ func _on_production_timer_timeout() -> void:
 
 func _on_health_component_death() -> void:
 #{
-  $Sprite2D.frame = 1;
+  $Sprite2D.frame = 1;  building_destroyed.emit();
+  
   $HealthComponent.visible = false;
   $DamagedSprite.visible = false;
   $Area2D/CollisionShape2D.set_deferred("disabled", true);

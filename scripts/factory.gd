@@ -55,6 +55,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
       finished_construction.emit();
       $ProductionTimer.start();
       $GPUParticles2D2.emitting = true;
+      bIsConstructionDone = true;
     #}
   #}
 #}
@@ -79,7 +80,8 @@ func _on_gpu_particles_2d_finished() -> void:
 
 func _on_health_component_death() -> void:
 #{
-  $Sprite2D.frame = 1;
+  $Sprite2D.frame = 1;  building_destroyed.emit();
+  
   $HealthComponent.visible = false;
   $DamagedSprite.visible = false;
   $Area2D/CollisionShape2D.set_deferred("disabled", true);

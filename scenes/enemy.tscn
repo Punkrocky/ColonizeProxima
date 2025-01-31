@@ -1,9 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://78ubowh7fyjo"]
+[gd_scene load_steps=11 format=3 uid="uid://78ubowh7fyjo"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_rku5c"]
 [ext_resource type="Texture2D" uid="uid://bm8upcgfwtqrt" path="res://assets/Enemies_SpriteSheet.png" id="2_hi5rl"]
 [ext_resource type="PackedScene" uid="uid://d0cfk3wpwt670" path="res://Components/health_component.tscn" id="3_yidmv"]
 [ext_resource type="Script" path="res://Components/damage_component.gd" id="4_g4hbd"]
+[ext_resource type="Texture2D" uid="uid://ddvajosgeer66" path="res://assets/Blood_Particles_SpriteSheet.png" id="5_jehji"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rrdse"]
+radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_23cge"]
 radius = 20.0
@@ -11,13 +15,35 @@ radius = 20.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_b81m5"]
 radius = 128.0
 
-[node name="Enemy" type="Node2D"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_j8khv"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 4
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m7c1b"]
+particle_flag_disable_z = true
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 0, 0)
+spread = 15.0
+initial_velocity_min = 43.01
+initial_velocity_max = 86.02
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -25.0
+radial_accel_max = 25.0
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = -2.23517e-06
+damping_min = 46.236
+damping_max = 53.225
+anim_offset_max = 1.0
+
+[node name="Enemy" type="CharacterBody2D"]
+motion_mode = 1
 script = ExtResource("1_rku5c")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_hi5rl")
-hframes = 3
-vframes = 2
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rrdse")
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_yidmv")]
 position = Vector2(0, -24)
@@ -30,10 +56,32 @@ script = ExtResource("4_g4hbd")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
 shape = SubResource("CircleShape2D_23cge")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="SweepArea" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SweepArea"]
 shape = SubResource("CircleShape2D_b81m5")
+
+[node name="AttackCooldown" type="Timer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture = ExtResource("2_hi5rl")
+hframes = 3
+vframes = 2
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_j8khv")
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_m7c1b")
+texture = ExtResource("5_jehji")
+lifetime = 600.0
+one_shot = true
+explosiveness = 1.0
 
 [connection signal="Death" from="HealthComponent" to="." method="_on_health_component_death"]
 [connection signal="Damaged" from="DamageComponent" to="." method="_on_damage_component_damaged"]
+[connection signal="area_entered" from="DamageComponent" to="." method="_on_damage_component_area_entered"]
+[connection signal="area_exited" from="DamageComponent" to="." method="_on_damage_component_area_exited"]
+[connection signal="area_entered" from="SweepArea" to="." method="_on_sweep_area_area_entered"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]

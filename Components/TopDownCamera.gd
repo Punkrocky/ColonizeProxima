@@ -87,7 +87,7 @@ func _input(event:InputEvent) -> void:
     #}
     $"../Player".CurrentZoom = zoom;
     # When the mouse is moving across the screen
-    if (event is InputEventMouseMotion and bRightMouseButton && !$"../Player".bIsActive):
+    if (event is InputEventMouseMotion and bRightMouseButton && !$"../Player".bIsActiveP):
     #{
       DeltaPos = event.position - LastMousePos;
       position += (-DeltaPos / zoom);

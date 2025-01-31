@@ -24,9 +24,9 @@ func _on_building_placed() -> void:
 
 func _on_farm_button_pressed() -> void:
 #{
-  print("New Farm!");
   bHasPickedBuilding = true;
   var NewFarm = BUILDING_FARM.instantiate();
+  NewFarm.bIsActive = true;
   NewFarm.GroundTileMap = $"../../Ground_TileMapLayer";
   NewFarm.BuildingTileMap = $"../../Building_TileMapLayer";
   NewFarm.RoadsTileMap = $"../../Road_TileMapLayer";
@@ -38,8 +38,9 @@ func _on_farm_button_pressed() -> void:
 
 func _on_mine_button_pressed() -> void:
 #{
-  print("New Mine!");
+  bHasPickedBuilding = true;
   var NewMine = BUILDING_MINE.instantiate();
+  NewMine.bIsActive = true;
   NewMine.GroundTileMap = $"../../Ground_TileMapLayer";
   NewMine.BuildingTileMap = $"../../Building_TileMapLayer";
   NewMine.RoadsTileMap = $"../../Road_TileMapLayer";
@@ -51,8 +52,9 @@ func _on_mine_button_pressed() -> void:
 
 func _on_power_plant_button_pressed() -> void:
 #{
-  print("New Power Plant!");
+  bHasPickedBuilding = true;
   var NewPowerPlant = BUILDING_POWERPLANT.instantiate();
+  NewPowerPlant.bIsActive = true;
   NewPowerPlant.GroundTileMap = $"../../Ground_TileMapLayer";
   NewPowerPlant.BuildingTileMap = $"../../Building_TileMapLayer";
   NewPowerPlant.RoadsTileMap = $"../../Road_TileMapLayer";
@@ -65,8 +67,9 @@ func _on_power_plant_button_pressed() -> void:
 
 func _on_factory_button_pressed() -> void:
 #{
-  print("New Factory!");
+  bHasPickedBuilding = true;
   var NewFactory = BUILDING_FACTORY.instantiate();
+  NewFactory.bIsActive = true;
   NewFactory.GroundTileMap = $"../../Ground_TileMapLayer";
   NewFactory.BuildingTileMap = $"../../Building_TileMapLayer";
   NewFactory.RoadsTileMap = $"../../Road_TileMapLayer";
@@ -79,8 +82,9 @@ func _on_factory_button_pressed() -> void:
 
 func _on_gun_turret_button_pressed() -> void:
 #{
-  print("New Gun Turret!");
+  bHasPickedBuilding = true;
   var NewGunTurret = BUILDING_GUN_TURRET.instantiate();
+  NewGunTurret.bIsActive = true;
   NewGunTurret.GroundTileMap = $"../../Ground_TileMapLayer";
   NewGunTurret.BuildingTileMap = $"../../Building_TileMapLayer";
   NewGunTurret.RoadsTileMap = $"../../Road_TileMapLayer";

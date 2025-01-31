@@ -23,7 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://vckb1pc5eb7d" path="res://assets/Attack_Icon.png" id="18_x3c2t"]
 [ext_resource type="Texture2D" uid="uid://bleuyxmrxga50" path="res://assets/Repair_Icon.png" id="21_hr314"]
 [ext_resource type="Texture2D" uid="uid://c7l6rs4lktwqb" path="res://assets/Tree_Sprite.png" id="23_4wrpp"]
-[ext_resource type="PackedScene" uid="uid://78ubowh7fyjo" path="res://scenes/enemy.tscn" id="24_qu5so"]
+[ext_resource type="PackedScene" uid="uid://d30ccoot04tb8" path="res://scenes/enemy_spawner.tscn" id="24_co52u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ojxyn"]
 texture = ExtResource("1_hrrrv")
@@ -2979,8 +2979,8 @@ texture = ExtResource("23_4wrpp")
 position = Vector2(32, 32)
 texture = ExtResource("23_4wrpp")
 
-[node name="Enemy" parent="." instance=ExtResource("24_qu5so")]
-position = Vector2(545, 344)
+[node name="EnemySpawner" parent="." instance=ExtResource("24_co52u")]
+position = Vector2(641, -200)
 
 [connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/FarmButton" to="CanvasLayer/ButtonContainer" method="_on_farm_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/ButtonContainer/MarginContainer/HBoxContainer/MineButton" to="CanvasLayer/ButtonContainer" method="_on_mine_button_pressed"]

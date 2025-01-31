@@ -1,14 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://bn3o7b8bbqxcr"]
+[gd_scene load_steps=7 format=3 uid="uid://bn3o7b8bbqxcr"]
 
 [ext_resource type="Script" path="res://scripts/hub.gd" id="1_82od4"]
-[ext_resource type="Texture2D" uid="uid://cma6bvahhr1b3" path="res://assets/HUB_Sprite.png" id="2_pen3r"]
+[ext_resource type="Texture2D" uid="uid://cdokv6hqm1qg2" path="res://assets/HUB_SpriteSheet.png" id="2_0m8gb"]
+[ext_resource type="Texture2D" uid="uid://cp1pgo53oktrx" path="res://assets/Damaged_Sprite.png" id="3_pr3mw"]
+[ext_resource type="PackedScene" uid="uid://d0cfk3wpwt670" path="res://Components/health_component.tscn" id="4_7l035"]
+[ext_resource type="Script" path="res://Components/damage_component.gd" id="5_3thch"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nk0tu"]
+radius = 20.0
 
 [node name="HUB" type="Node2D"]
 script = ExtResource("1_82od4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_pen3r")
+texture = ExtResource("2_0m8gb")
+hframes = 2
 
 [node name="Timer" type="Timer" parent="."]
 
+[node name="DamagedSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_pr3mw")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_7l035")]
+position = Vector2(0, -40)
+Health = 12
+
+[node name="DamageComponent" type="Area2D" parent="."]
+script = ExtResource("5_3thch")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent"]
+shape = SubResource("CircleShape2D_nk0tu")
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="Death" from="HealthComponent" to="." method="_on_health_component_death"]
+[connection signal="Damaged" from="DamageComponent" to="." method="_on_damage_component_damaged"]

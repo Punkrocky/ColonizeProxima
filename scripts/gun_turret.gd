@@ -3,7 +3,6 @@ extends Building_Base
 const BULLET:PackedScene = preload("res://scenes/bullet.tscn");
 
 var bIsPlayerSelected:bool;
-var bIsConstructionDone:bool = false;
 
 
 # Called when the node enters the scene tree for the first time.
@@ -154,3 +153,26 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 #{
   pass;
 #}
+
+
+func _on_health_component_death() -> void:
+#{
+  $Sprite2D.frame = 1;  building_destroyed.emit();
+  
+  $HealthComponent.visible = false;
+  $DamagedSprite.visible = false;
+  $TopSprite.visible = false;
+  $Line2D.visible = false;
+  $Area2D/CollisionShape2D.set_deferred("disabled", true);
+  $DamageComponent/CollisionShape2D.set_deferred("disabled", true);
+  
+  var TileMapCoord:Vector2i = BuildingTileMap.local_to_map(position - BuildingTileMap.position);
+  BuildingTileMap.set_cell(TileMapCoord, 0, Vector2i(2,1));
+  GroundTileMap.set_cell(TileMapCoord, 0, Vector2i(0,0));
+  (func(x): for i in x: GroundTileMap.set_cell(i, 0, Vector2i(0,0))).call(RoadsTileMap.get_surrounding_cells(TileMapCoord));
+  set_process(false);
+#}
+
+
+func _on_damage_component_damaged(x: int) -> void:
+  $HealthComponent.take_damage(x);

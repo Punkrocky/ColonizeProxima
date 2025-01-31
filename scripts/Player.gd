@@ -4,7 +4,7 @@ class_name Player
 #@export var PlayerShader:Material = preload("res://shaders/new_shader_material.tres");
 
 @export var RoadTileMap:Node2D;
-@export var bIsActive:bool = false;
+@export var bIsActiveP:bool = false;
 @export var CurrentZoom:Vector2 = Vector2(1,1);
 @export var Speed:float; # Magnitude of travel vector
 var Destination:Vector2; # World location to travel to
@@ -70,13 +70,13 @@ func _input(event: InputEvent) -> void:
   #$Sprite2D.material.set_shader_parameter("MousePos", get_global_mouse_position()*CurrentZoom);
   if(event is InputEventMouse && event is InputEventMouseButton):
   #{
-    if(event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed() && bIsActive):
+    if(event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed() && bIsActiveP):
     #{
-      bIsActive = false;
+      bIsActiveP = false;
       $SelectorSprite.visible = false;
     #}
     
-    if(event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed() && bIsActive):
+    if(event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed() && bIsActiveP):
     #{
       # Restrict movement to grid aligned points, makes it easier to fallow roads
       var GridAlignedMousePos:Vector2 = ((get_global_mouse_position() + Vector2(0,8)) / 32); # Tiles are 32x32 pixels
@@ -123,7 +123,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
   #{
     if(event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed()):
     #{
-      bIsActive = true;
+      bIsActiveP = true;
       $SelectorSprite.visible = true;
       print("Pressed!");
     #}

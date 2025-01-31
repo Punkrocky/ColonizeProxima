@@ -18,7 +18,7 @@ func _ready() -> void:
     healthPip.custom_minimum_size = Vector2(4, 0);
     $Panel/Margin/HBox.add_child(healthPip);
   #}
-  #visible = false;
+  visible = false;
 #}
 
 
