@@ -13,6 +13,7 @@ config_version=5
 config/name="Colonize Proxima"
 run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
+boot_splash/image="res://assets/Title.png"
 config/icon="res://icon.svg"
 
 [autoload]
